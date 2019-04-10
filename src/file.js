@@ -11,7 +11,7 @@ const options = {
   host: process.env.HOST || 'localhost',
 }
 
-socket.connet(options, () => {});
+socket.connect(options, () => {});
 
 socket.on('close', function() {
   console.log('Connection closed');
