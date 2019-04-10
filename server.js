@@ -21,19 +21,12 @@ server.on('connection', (socket) => {
   });
 });
 
-let dispatchEvent = (json) => {
-  // let parsed = JSON.parse(buffer);
-  let {event, payload} = JSON.parse(json);
-  // let message = JSON.stringify({event, payload})
-  if(goodEvent.includes(event)){
-    console.log(`BROADCAST: ${event}`);
+  let dispatchEvent = (buffer) => {
+    let text = buffer.toString().trim();
     for (let socket in socketPool) {
-      socketPool[socket].write(`${event} ${payload}\n`);
+      socketPool[socket].write(`${text}`);
     }
-  }
-  else {
-    console.log(`IGNORE: ${event}`);
-  }
+    // console.log(`IGNORE: ${event}`);
 };
 
 
