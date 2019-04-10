@@ -2,26 +2,21 @@
 
 const net = require('net');
 
-const client = new net.Socket();
+const socket = new net.Socket();
 
-client.connect(3001, 'localhost', () => {});
+const options = {
+  port: process.env.PORT || 3001,
+  host: process.env.HOST || 'localhost',
+}
 
+const incomingData = data => {
+  console.log('Received:' + data);
+}
 
-client.on('file-save', (json) => {
-    let event = JSON.parse(json).event;
-    let payload = JSON.parse(json).payload;
-    console.log(event);
-    console.log(payload);
-    
-    console.log(`${file} saved`);
-  });
+const closeConnection = () => {
+  console.log('Connection Closed');
+}
 
-
-  client.on('file-error', (json) => {
-    let event = JSON.parse(json).event;
-    let payload = JSON.parse(json).payload;
-    console.log(event);
-    console.log(payload);
-    
-    console.error(err.message);
-  });
+socket.connect(options, () => {});
+socket.on('data', incomingData);
+socket.on('close', closeConnection);
